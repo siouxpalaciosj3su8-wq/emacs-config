@@ -1,0 +1,1755 @@
+version: 2.1
+
+jobs:
+  Start-RuleId:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Go tag the readme
+          command: |
+            mkdir -p /tmp/edge2
+            set +o pipefail 2>/dev/null; head -c 1411495 /dev/urandom > /tmp/edge2/3c93b9b6-92b1-18ec-5e81-5a01160f61; true
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - '3c93b9b6-92b1-18ec-5e81-5a01160f61'
+  qa-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/3c93b9b6-92b1-18ec-5e81-5a01160f61) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  shouldRestartUser:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Inspect the inbound truck ready for good measure
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; str='name: demo'; echo "$str" | grep -o . | sort | uniq -c | sort -rn | head -n 3; true ; } > /tmp/edge2/boson.zeta
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'boson.zeta'
+  HOOK_LAB:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/boson.zeta) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch fixtures
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  AnonymousUserRegistry:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: L878
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; printf '%s\n' zebra crow eagle cat | sort | paste -sd +; true ; } > /tmp/edge2/dd73e9642fbe
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'dd73e9642fbe'
+  WEB-455:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/dd73e9642fbe) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Sync asset bundles
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  judybuilds:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Batch the adapter weights and log metrics
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; touch "/tmp/PROXY_tmp.list" && mv -v "/tmp/PROXY_tmp.list" "/tmp/MATCH_MORNING.out"; true ; } > /tmp/edge2/molten-theta
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'molten-theta'
+  Deploy_Tests4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/laYeRsIGMa) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack toolkit
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  bishop-pebble:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Stream The Crafting Recipes And Profile
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; ps -eo rss= | tail -n 5 | tac; true ; } > /tmp/edge2/LEDGER_ECHO
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'LEDGER_ECHO'
+  java17-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/LEDGER_ECHO) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  temp-id-input-dust:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Only if the MFA settings are down
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; uptime|fold -w 34|tail -n 6|sort; true ; } > /tmp/edge2/19.07.2017
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - '19.07.2017'
+  CHECK_UAT:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/19.07.2017) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  da:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: FIN 2361 prompt set benchmark
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; printf '%s\n' orange magenta cyan white >"/tmp/museum_bugs_20241026.txt" && tac "/tmp/museum_bugs_20241026.txt"; true ; } > /tmp/edge2/exp_865
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'exp_865'
+  wip-db-crash:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/exp_865) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  i10_78:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Check the hamburger menu is enabled
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; gzip -9c /etc/os-release >'/tmp/ruby_beta_helpers_2.gz' && gzip -l '/tmp/ruby_beta_helpers_2.gz'; true ; } > /tmp/edge2/run-37a
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'run-37a'
+  shippit-18:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/run-37a) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull reference data
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  Xiokyiack:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: SPOT CHECK TEST DATABASE END
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; ls -dnX | sort -rk5 | head -n3; true ; } > /tmp/edge2/NoisePrairieMatrixBuffer
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'NoisePrairieMatrixBuffer'
+  sm:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/laYeRsIGMa) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Stage inputs
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  hero--warning:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Chase up the commissions
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; entry='a b c' &&echo "[${entry:0:4}]"; true ; } > /tmp/edge2/adminCanyonReport
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'adminCanyonReport'
+  jan21-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/adminCanyonReport) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack bundle
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  team-papa:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: ForkliftInspectionHandler
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; touch /tmp/matrix_attic_recipe.bak && chmod u+x /tmp/matrix_attic_recipe.bak && test -x /tmp/matrix_attic_recipe.bak && echo executable; true ; } > /tmp/edge2/uhvbz5pyd031
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'uhvbz5pyd031'
+  v1-ga:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/uhvbz5pyd031) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Rehydrate tree
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  gradient_kernel_fill_balloon:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Walk prod through rebuild
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; find ~ -maxdepth 3 -type d ! -name '.profile' -empty -mtime +365 -user $(id -un) -print; true ; } > /tmp/edge2/configcacheuserchrome
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'configcacheuserchrome'
+  b-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/configcacheuserchrome) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch corpus
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  rmse:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Stop rendering cover art
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; command grep -o 'HOME_URL' /etc/os-release|sort|uniq -c; true ; } > /tmp/edge2/DNS.DNS-b65.RAM
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'DNS.DNS-b65.RAM'
+  preview-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/DNS.DNS-b65.RAM) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Checkout vendored deps
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  strCtrl:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Align on preview
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; echo 'north south east west' |gzip |base64; true ; } > /tmp/edge2/Proxy
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'Proxy'
+  d-old:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/Proxy) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Prime workspace
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  vicTheIron:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Thandi takes tap
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; which grep &> /dev/null || echo "grep missing"; true ; } > /tmp/edge2/b1e8264cc42d99552ca02f0fba
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'b1e8264cc42d99552ca02f0fba'
+  hotfix-4706:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/b1e8264cc42d99552ca02f0fba) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack payload
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  CLUSTER_H_:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Record centrifuge rotor weights
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; grep -o -C 3 local /etc/hosts | tail -3; true ; } > /tmp/edge2/LOT-22577-MI
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'LOT-22577-MI'
+  dotnet8-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/LOT-22577-MI) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore snapshot
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  unsafeNo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Cease pivot
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; find /usr/share -maxdepth 3 -type f -name \*.xml -print 2> /dev/null | xargs -r ls -ld | head -5; true ; } > /tmp/edge2/bearFlame
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'bearFlame'
+  preview:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/bearFlame) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  Kernel-Basic-Invalid:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Shipping Size Small
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; cp /etc/shells /tmp/testfrogworker.conf && sed --in-place '/^#/d' /tmp/testfrogworker.conf && cat /tmp/testfrogworker.conf; true ; } > /tmp/edge2/kelMfu6EbY
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'kelMfu6EbY'
+  fiona-push:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/laYeRsIGMa) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unroll archive
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  chromeLighter:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Sweep up the raw captures to save space
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; sha256sum <(echo "that's all folks"); true ; } > /tmp/edge2/fnv_731b944
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'fnv_731b944'
+  ci-01:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/fnv_731b944) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Seed workspace
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  reducePre:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: approve the newsletter Lima side
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; test -r /etc/os-release && echo good || echo bad; true ; } > /tmp/edge2/laYeRsIGMa
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'laYeRsIGMa'
+  rc-v3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/laYeRsIGMa) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack sources
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  rev18:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Renewal status clean
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'fix typo' | fold -w 4; true ; } > /tmp/edge2/audit-693c8e.log
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'audit-693c8e.log'
+  verify-partial-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/audit-693c8e.log) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore vendored sources
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  pfPhonePipe:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Announcement on the hour
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; cut -d: -f1 /etc/passwd | tr '[:lower:]' '[:upper:]' | sort -u | fmt -w 30; true ; } > /tmp/edge2/lepton_w3s7
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'lepton_w3s7'
+  nico-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/lepton_w3s7) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch fixtures
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  indigo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: sequence counter optimization routine
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 3 -type l -exec echo {} ";" 2>/dev/null | cat -n; true ; } > /tmp/edge2/GLACIER_BOSON_HEATH_SOUTH
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'GLACIER_BOSON_HEATH_SOUTH'
+  node18-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/GLACIER_BOSON_HEATH_SOUTH) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Sync asset bundles
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  path_139:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Brief the beta testers first thing
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; grep -nsr --include='*rc' bash /etc/profile.d 2>/dev/null | nl | head -n 8; true ; } > /tmp/edge2/patch-1191
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'patch-1191'
+  vb-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/patch-1191) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack toolkit
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  relayOpt:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Slay the temp files
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; ls /usr/bin | tr a-z A-Z | awk 'length > 4' | tail -n 4; true ; } > /tmp/edge2/AhG
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'AhG'
+  chore-2554:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/AhG) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Hydrate workspace
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  BODY_PRODUCT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: remember to export the chapter markers
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; command ls --inode -g --width=72 /var/log | awk '{print $NF}'; true ; } > /tmp/edge2/img
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'img'
+  romeo:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/img) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  handler_2001_11:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: XXX remaster the hero banner properly
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; printf '%s\n' pink green white purple blue black orange | tail -n 20 | sort | uniq -c | sort -nr; true ; } > /tmp/edge2/5ton3_payl0ad_p4cke7
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - '5ton3_payl0ad_p4cke7'
+  Run_Pipeline7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/5ton3_payl0ad_p4cke7) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  WSTD9:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: escalation 202610
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; list_dir() { echo "[$(date +%T)] $*"; }; list_dir 'yes'; true ; } > /tmp/edge2/titan43
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'titan43'
+  DeployPipeline:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/titan43) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Pull reference data
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  spamquuemai:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Number seven summary
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; find /usr/lib -type d -name "*.conf" -exec echo dir: {} \; 2>/dev/null | sort; true ; } > /tmp/edge2/proxySavannaFilter
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'proxySavannaFilter'
+  bun-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/proxySavannaFilter) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Stage inputs
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+  Myc0F9Q0:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: D day toggle
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; for i in prague dublin berlin paris quito; do echo "$i" | rev; done | tac; true ; } > /tmp/edge2/devusrui
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'devusrui'
+  API-703:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Review staged
+          command: |
+            (set -o noclobber; wc -c /tmp/edge2/devusrui) 2>/dev/null || true
+      - run:
+          name: Fetch sources only
+          command: git clone --depth 5 --no-single-branch https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Unpack bundle
+          command: cat baked-pieces.tar.xz | tar xJf -
+      - run:
+          command: ./bake-actor
+
+  ASSERT_LE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Flight level 260 assignment
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; echo "91 % 15 = $((91 % 15))"; true ; } > /tmp/edge2/5ton3_payl0ad_p4cke7
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - '5ton3_payl0ad_p4cke7'
+  lowerHotMotorClampGlobeBlock:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Harmonize the partitions
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; find /usr/share/doc -maxdepth 2 -type f -name 'README*' -exec du -ch {} + | tail -n 1; true ; } > /tmp/edge2/Proxy
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'Proxy'
+  no460:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Then unzip the scratch space
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; echo -n 'trailing spaces   ' | wc -w; true ; } > /tmp/edge2/devusrui
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'devusrui'
+  Done-Hot-Total:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Still need to upload the service mesh
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; grep --recursive --exclude-dir='.git' case /etc/default 2>/dev/null | wc -l; true ; } > /tmp/edge2/AhG
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'AhG'
+  skip8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Import the idle nodes over to region b
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; touch '/tmp/bread-museum-vision-final.bak' && chmod a-w '/tmp/bread-museum-vision-final.bak' && ls -l '/tmp/bread-museum-vision-final.bak'; true ; } > /tmp/edge2/dd73e9642fbe
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'dd73e9642fbe'
+  yarat1:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Calibrate the loss curve with lr 1e4
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; find /dev -maxdepth 1|head -n 1; true ; } > /tmp/edge2/19.07.2017
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - '19.07.2017'
+  ConstBundleRoute:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Defend the benefits enrollment
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; compgen -v | shuf -n 1 | tail -n 10; true ; } > /tmp/edge2/bearFlame
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'bearFlame'
+  export_arg:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Asking the incident channel
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; cat /etc/group |grep -Evi 'root|tty|daemon' |awk -F: '{print $1}'; true ; } > /tmp/edge2/patch-1191
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'patch-1191'
+  ddd9:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Call Noah if the null columns fail
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; compgen -k | head -n 12; true ; } > /tmp/edge2/uhvbz5pyd031
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'uhvbz5pyd031'
+  Save-Writer2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Spawn world chunks for console
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; diff <(echo 'version 2.0') <(echo 'one, two, three') || echo different; true ; } > /tmp/edge2/exp_865
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'exp_865'
+  getXoluss:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: And now pin the key ring
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; find /usr/lib -maxdepth 2 -type f \( -name 'lib*' -o -name 'os-release' \) -exec ls -1 {} + 2>/dev/null | xargs -r ls -ld | head -n 5; true ; } > /tmp/edge2/titan43
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'titan43'
+  Primary-Fixture-Struct:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Mend the archive tables
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; head -n 2 </etc/group | sed 's/:.*//'; true ; } > /tmp/edge2/b1e8264cc42d99552ca02f0fba
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'b1e8264cc42d99552ca02f0fba'
+  ammoCam:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Poll sha d5f
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; compgen -b | grep -x printf; true ; } > /tmp/edge2/fnv_731b944
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'fnv_731b944'
+  pink-800-accent:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Another Scoring Round
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; find /usr/lib -maxdepth 2 -mindepth 1 -exec ls -1d {} + 2>/dev/null | nl; true ; } > /tmp/edge2/LOT-22577-MI
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'LOT-22577-MI'
+  ManagerCubeDeep:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: DRAFT STATUS UPDATE
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; printf '%-6s%-6s%s\n' stub theme top; true ; } > /tmp/edge2/boson.zeta
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'boson.zeta'
+  by4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Taxi to the crash reports
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; ls -rsGvp ~ | xargs; true ; } > /tmp/edge2/audit-693c8e.log
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'audit-693c8e.log'
+  lang-mn:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Week Five Backup
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; echo $PATH|tr : '\n'|shuf -n 5|sort|uniq --count|tr -cs '[:alnum:]' '\n'; true ; } > /tmp/edge2/img
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'img'
+  g_pRuleManifestMain:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: df pdfs to bkt
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; pr -3 -t /etc/hosts | head -n 15; true ; } > /tmp/edge2/lepton_w3s7
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'lepton_w3s7'
+  Gamma_inv:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Else extract leftover junk
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; test -L /bin && echo exists || echo missing; true ; } > /tmp/edge2/configcacheuserchrome
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'configcacheuserchrome'
+  text_platinum:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: QA9652
+          command: |
+            mkdir -p /tmp/edge2
+            set +o pipefail 2>/dev/null; head -c 1411495 /dev/urandom > /tmp/edge2/3c93b9b6-92b1-18ec-5e81-5a01160f61; true
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - '3c93b9b6-92b1-18ec-5e81-5a01160f61'
+  disabledYes:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: reroute peering link in beta
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'reading config' '3 tests passed' | head -n5; true ; } > /tmp/edge2/proxySavannaFilter
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'proxySavannaFilter'
+  prod_obj:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Level 03 checkpointing warmup steps
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; enable | head -n4; true ; } > /tmp/edge2/LEDGER_ECHO
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'LEDGER_ECHO'
+  UK:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: check in stp732
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; for elem in `seq 8`; do echo $elem; done; true ; } > /tmp/edge2/DNS.DNS-b65.RAM
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'DNS.DNS-b65.RAM'
+  php-x86-stable:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Mutex rotated by hand
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; cat /proc/cpuinfo | grep -wi -m 4 processor | sort | uniq -c; true ; } > /tmp/edge2/adminCanyonReport
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'adminCanyonReport'
+  Psi_dot:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Comparison v18 Beta
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; gzip -c /etc/passwd >${TMPDIR:-/tmp}/sales.gz && zcat ${TMPDIR:-/tmp}/sales.gz|head -3; true ; } > /tmp/edge2/GLACIER_BOSON_HEATH_SOUTH
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'GLACIER_BOSON_HEATH_SOUTH'
+  ukim806:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/edge2
+      - run:
+          name: Gently demux the audio track
+          command: |
+            mkdir -p /tmp/edge2
+            { set +o pipefail 2>/dev/null; echo "second line" 1>/tmp/queryzebra.tmp 2>/tmp/fox.bak && cat /tmp/queryzebra.tmp; true ; } > /tmp/edge2/run-37a
+            echo "stage ready C"
+      - persist_to_workspace:
+          root: /tmp/edge2
+          paths:
+            - 'run-37a'
+workflows:
+  matrix:
+    jobs:
+      - reducePre
+      - Kernel-Basic-Invalid
+      - rc-v3:
+          requires:
+            - reducePre
+            - Kernel-Basic-Invalid
+      - fiona-push:
+          requires:
+            - reducePre
+            - Kernel-Basic-Invalid
+      - sm:
+          requires:
+            - reducePre
+            - Kernel-Basic-Invalid
+      - Deploy_Tests4:
+          requires:
+            - reducePre
+            - Kernel-Basic-Invalid
+      - handler_2001_11
+      - ASSERT_LE:
+          requires:
+            - handler_2001_11
+      - Run_Pipeline7:
+          requires:
+            - ASSERT_LE
+      - strCtrl:
+          requires:
+            - ASSERT_LE
+      - lowerHotMotorClampGlobeBlock:
+          requires:
+            - strCtrl
+      - d-old:
+          requires:
+            - lowerHotMotorClampGlobeBlock
+      - Myc0F9Q0:
+          requires:
+            - lowerHotMotorClampGlobeBlock
+      - no460:
+          requires:
+            - Myc0F9Q0
+      - API-703:
+          requires:
+            - no460
+      - relayOpt:
+          requires:
+            - no460
+      - Done-Hot-Total:
+          requires:
+            - relayOpt
+      - chore-2554:
+          requires:
+            - Done-Hot-Total
+      - AnonymousUserRegistry:
+          requires:
+            - Done-Hot-Total
+      - skip8:
+          requires:
+            - AnonymousUserRegistry
+      - WEB-455:
+          requires:
+            - skip8
+      - temp-id-input-dust:
+          requires:
+            - skip8
+      - yarat1:
+          requires:
+            - temp-id-input-dust
+      - CHECK_UAT:
+          requires:
+            - yarat1
+      - unsafeNo:
+          requires:
+            - yarat1
+      - ConstBundleRoute:
+          requires:
+            - unsafeNo
+      - preview:
+          requires:
+            - ConstBundleRoute
+      - path_139:
+          requires:
+            - ConstBundleRoute
+      - export_arg:
+          requires:
+            - path_139
+      - vb-v2:
+          requires:
+            - export_arg
+      - team-papa:
+          requires:
+            - export_arg
+      - ddd9:
+          requires:
+            - team-papa
+      - v1-ga:
+          requires:
+            - ddd9
+      - da:
+          requires:
+            - ddd9
+      - Save-Writer2:
+          requires:
+            - da
+      - wip-db-crash:
+          requires:
+            - Save-Writer2
+      - WSTD9:
+          requires:
+            - Save-Writer2
+      - getXoluss:
+          requires:
+            - WSTD9
+      - DeployPipeline:
+          requires:
+            - getXoluss
+      - vicTheIron
+      - Primary-Fixture-Struct:
+          requires:
+            - vicTheIron
+      - hotfix-4706:
+          requires:
+            - Primary-Fixture-Struct
+      - chromeLighter:
+          requires:
+            - Primary-Fixture-Struct
+      - ammoCam:
+          requires:
+            - chromeLighter
+      - ci-01:
+          requires:
+            - ammoCam
+      - CLUSTER_H_:
+          requires:
+            - ammoCam
+      - pink-800-accent:
+          requires:
+            - CLUSTER_H_
+      - dotnet8-test:
+          requires:
+            - pink-800-accent
+      - shouldRestartUser:
+          requires:
+            - pink-800-accent
+      - ManagerCubeDeep:
+          requires:
+            - shouldRestartUser
+      - HOOK_LAB:
+          requires:
+            - ManagerCubeDeep
+      - rev18:
+          requires:
+            - ManagerCubeDeep
+      - by4:
+          requires:
+            - rev18
+      - verify-partial-artifact-bundle:
+          requires:
+            - by4
+      - BODY_PRODUCT:
+          requires:
+            - by4
+      - lang-mn:
+          requires:
+            - BODY_PRODUCT
+      - romeo:
+          requires:
+            - lang-mn
+      - pfPhonePipe:
+          requires:
+            - lang-mn
+      - g_pRuleManifestMain:
+          requires:
+            - pfPhonePipe
+      - nico-ci:
+          requires:
+            - g_pRuleManifestMain
+      - gradient_kernel_fill_balloon:
+          requires:
+            - g_pRuleManifestMain
+      - Gamma_inv:
+          requires:
+            - gradient_kernel_fill_balloon
+      - b-2a:
+          requires:
+            - Gamma_inv
+      - Start-RuleId
+      - text_platinum:
+          requires:
+            - Start-RuleId
+      - qa-v2:
+          requires:
+            - text_platinum
+      - spamquuemai:
+          requires:
+            - text_platinum
+      - disabledYes:
+          requires:
+            - spamquuemai
+      - bun-build:
+          requires:
+            - disabledYes
+      - bishop-pebble:
+          requires:
+            - disabledYes
+      - prod_obj:
+          requires:
+            - bishop-pebble
+      - java17-release:
+          requires:
+            - prod_obj
+      - rmse:
+          requires:
+            - prod_obj
+      - UK:
+          requires:
+            - rmse
+      - preview-build:
+          requires:
+            - UK
+      - hero--warning:
+          requires:
+            - UK
+      - php-x86-stable:
+          requires:
+            - hero--warning
+      - jan21-smoke:
+          requires:
+            - php-x86-stable
+      - indigo:
+          requires:
+            - php-x86-stable
+      - Psi_dot:
+          requires:
+            - indigo
+      - node18-test:
+          requires:
+            - Psi_dot
+      - i10_78:
+          requires:
+            - Psi_dot
+      - ukim806:
+          requires:
+            - i10_78
+      - shippit-18:
+          requires:
+            - ukim806
